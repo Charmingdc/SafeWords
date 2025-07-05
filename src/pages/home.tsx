@@ -7,6 +7,7 @@ import createDecryptor from "@/utils/decryptor";
 import { ShieldCheck, Key } from "lucide-react";
 import Button from "@/components/ui/Button";
 import TopNavbar from "@/components/TopNavbar";
+import OutputModal from "@/components/OutputModal";
 
 import OperationTypeSelection from "@/components/OperationTypeSelection";
 import InputSystem from "@/components/InputSystem";
@@ -18,6 +19,7 @@ const HomePage = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [operationResult, setOperationResult] = useState<string>("");
+  const [showOutputModal, setShowOutputModal] = useState<boolean>(false);
 
   const handleEncryption = async () => {
     if (!inputValue.trim() || !password.trim()) {
@@ -31,8 +33,8 @@ const HomePage = () => {
 
       toast.success("Data encrypted successfully");
 
-      console.log(result);
       setOperationResult(result);
+      setShowOutputModal(true);
       setInputValue("");
       setPassword("");
     } catch (error) {
@@ -51,8 +53,7 @@ const HomePage = () => {
       const result = await decryptor(inputValue, password);
 
       toast.success("Data decrypted successfully");
-      
-      console.log(result)
+
       setOperationResult(result);
       setInputValue("");
       setPassword("");
@@ -97,6 +98,15 @@ const HomePage = () => {
         >
           {operation === "encryption" ? "secure" : "access"}
         </Button>
+
+        {showOutputModal && (
+          <OutputModal
+            operationType={operation}
+            result={operationResult}
+            password={password}
+            onClick={() => setShowOutputModal(false)}
+          />
+        )}
       </main>
     </>
   );
