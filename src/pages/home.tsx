@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { toast } from "sonner";
+
+import createEncryptor from "@/utils/encryptor";
+import createDecryptor from "@/utils/decryptor";
 
 import { ShieldCheck, Key } from "lucide-react";
-
 import Button from "@/components/ui/Button";
 import TopNavbar from "@/components/TopNavbar";
 
@@ -14,6 +17,49 @@ const HomePage = () => {
   );
   const [inputValue, setInputValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [operationResult, setOperationResult] = useState<string>("");
+
+  const handleEncryption = async () => {
+    if (!inputValue.trim() || !password.trim()) {
+      toast.error("Both data to encrypt and password must be provided");
+      return;
+    }
+
+    try {
+      const encryptor = await createEncryptor();
+      const result = await encryptor(inputValue, password);
+
+      toast.success("Data encrypted successfully");
+
+      console.log(result);
+      setOperationResult(result);
+      setInputValue("");
+      setPassword("");
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const handleDecryption = async () => {
+    if (!inputValue.trim() || !password.trim()) {
+      toast.error("Both data to decrypt and access password must be provided");
+      return;
+    }
+
+    try {
+      const decryptor = await createDecryptor();
+      const result = await decryptor(inputValue, password);
+
+      toast.success("Data decrypted successfully");
+      
+      console.log(result)
+      setOperationResult(result);
+      setInputValue("");
+      setPassword("");
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <>
@@ -28,6 +74,7 @@ const HomePage = () => {
         />
 
         <InputSystem
+          operationType={operation}
           inputValue={inputValue}
           password={password}
           setInputValue={setInputValue}
@@ -43,6 +90,9 @@ const HomePage = () => {
             ) : (
               <Key className='w-4 h-4' />
             )
+          }
+          onClick={
+            operation === "encryption" ? handleEncryption : handleDecryption
           }
         >
           {operation === "encryption" ? "secure" : "access"}
