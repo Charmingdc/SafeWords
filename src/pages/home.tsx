@@ -6,11 +6,16 @@ import createDecryptor from "@/utils/decryptor";
 
 import { ShieldCheck, Key } from "lucide-react";
 import Button from "@/components/ui/Button";
-import TopNavbar from "@/components/TopNavbar";
-import OutputModal from "@/components/OutputModal";
-
 import OperationTypeSelection from "@/components/OperationTypeSelection";
 import InputSystem from "@/components/InputSystem";
+import OutputModal from "@/components/OutputModal";
+import ViewSavedEntryptions from "@/components/ViewSavedEncryptions";
+import TopNavbar from "@/components/TopNavbar";
+
+type OperationResult = {
+  result: string;
+  password: string;
+};
 
 const HomePage = () => {
   const [operation, setOperation] = useState<"encryption" | "decryption">(
@@ -18,7 +23,8 @@ const HomePage = () => {
   );
   const [inputValue, setInputValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [operationResult, setOperationResult] = useState<string>("");
+  const [operationResult, setOperationResult] =
+    useState<OperationResult | null>(null);
   const [showOutputModal, setShowOutputModal] = useState<boolean>(false);
 
   const handleEncryption = async () => {
@@ -29,11 +35,11 @@ const HomePage = () => {
 
     try {
       const encryptor = await createEncryptor();
-      const result = await encryptor(inputValue, password);
+      const result = await encryptor(inputValue.trim(), password.trim());
 
       toast.success("Data encrypted successfully");
 
-      setOperationResult(result);
+      setOperationResult({ result, password });
       setShowOutputModal(true);
       setInputValue("");
       setPassword("");
@@ -50,11 +56,12 @@ const HomePage = () => {
 
     try {
       const decryptor = await createDecryptor();
-      const result = await decryptor(inputValue, password);
+      const result = await decryptor(inputValue.trim(), password.trim());
 
       toast.success("Data decrypted successfully");
 
-      setOperationResult(result);
+      setOperationResult({ result, password });
+      setShowOutputModal(true);
       setInputValue("");
       setPassword("");
     } catch (error) {
@@ -99,11 +106,12 @@ const HomePage = () => {
           {operation === "encryption" ? "secure" : "access"}
         </Button>
 
+        <ViewSavedEntryptions />
+
         {showOutputModal && (
           <OutputModal
             operationType={operation}
-            result={operationResult}
-            password={password}
+            operationResult={operationResult}
             onClick={() => setShowOutputModal(false)}
           />
         )}

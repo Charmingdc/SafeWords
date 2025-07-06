@@ -33,7 +33,11 @@ const InputSystem = ({
 
       <input
         type='password'
-        placeholder='Enter a password'
+        placeholder={`${
+          operationType === "encryption"
+            ? "Enter a password for encryption"
+            : "Enter the password used to encrypt"
+        }`}
         value={password}
         onChange={e => setPassword(e.target.value)}
         className='w-full h-14 bg-input text-input-foreground p-4'
