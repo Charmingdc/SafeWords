@@ -1,8 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { toast } from "sonner";
+import copyToClipboard from "@/utils/clipboard";
+import { useIndexedDB, type Entry } from "@/hooks/useIndexDB";
 import Button from "@/components/ui/Button";
 
 const ViewSavedEncryptions = () => {
-  const [showEntriesModal, setShowEntriesModal] = useState<boolean>(false);
+  const { getAllEntries, deleteEntry, deleteAllEntries } = useIndexedDB();
+
+  const [entries, setEntries] = useState<Entry[]>([]);
+  const [clickedEntryIndex, setClickedEntryIndex] = useState<number | null>(
+    null
+  );
+  const [showEntriesModal, setShowEntriesModal] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const fetchEntries = useCallback(async () => {
+    const res = await getAllEntries();
+    setEntries(res);
+  }, [getAllEntries]);
+
+  useEffect(() => {
+    if (showEntriesModal) {
+      fetchEntries();
+    }
+  }, [showEntriesModal, fetchEntries]);
+
+  const handleCopy = async (value: string) => {
+    const res = await copyToClipboard(value);
+    if (res.state === "error") return toast.error(res.message);
+
+    toast.success(res.message);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
+  const handleModalClosing = () => {
+    setShowEntriesModal(false);
+    setClickedEntryIndex(null);
+  };
+
+  const handleEntryDeletion = async (id: string) => {
+    try {
+      await deleteEntry(id);
+      toast.success("Entry deleted");
+      fetchEntries();
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
 
   return (
     <>
@@ -15,37 +60,84 @@ const ViewSavedEncryptions = () => {
       </Button>
 
       {showEntriesModal && (
-        <div className='w-screen h-screen fixed top-0 left-0 bg-black/80 flex items-center justify-center backdrop-blur-sm overflow-hidden z-10'>
-          <div
-            className='w-[90%] max-h-[80vh] bg-card flex flex-col gap-4
-          text-card-foreground py-4 px-[5%] -mt-12'
-          >
-            <div className='w-full flex items-center justify-between pb-2 px-[5%] border-b'>
-              <h2 className='font-extrabold'>Saved Entries</h2>
+        <div className='fixed inset-0 z-10 bg-black/80 backdrop-blur-sm flex items-center justify-center overflow-hidden'>
+          <div className='w-[90%] max-h-[80vh] bg-card text-card-foreground py-4 px-[5%] flex flex-col gap-4 -mt-12 rounded-md'>
+            <div className='w-full flex items-center justify-between pb-2 border-b'>
+              <h2 className='font-extrabold text-lg'>Saved Entries</h2>
               <button
-                onClick={() => setShowEntriesModal(false)}
-                className='-mt-1'
+                onClick={handleModalClosing}
+                className='text-sm text-muted-foreground hover:underline'
               >
                 Close
               </button>
             </div>
 
             <div className='w-full flex-1 flex flex-col gap-2 overflow-y-auto'>
-              {[...Array(30)].map((_, i) => (
-                <div
-                  key={i}
-                  className='w-full h-14 bg-input flex items-center
-                  justify-between py-4 px-2'
-                >
-                  <p className='w-[80%] overflow-hidden whitespace-nowrap text-ellipsis'>
-                    Ndjdjdbejsjdjjdjdhdjdhdiwjbsjzjsjdbdndjdjdjdnndjdjdjdjdjdjdjd
-                  </p>
-                  <p>Del</p>
-                </div>
-              ))}
+              {entries.length === 0 ? (
+                <p className='text-center text-muted-foreground py-4'>
+                  No saved entries yet.
+                </p>
+              ) : (
+                entries.map((entry, i) => {
+                  const isActive = clickedEntryIndex === i;
+
+                  return (
+                    <div
+                      key={entry.id}
+                      onClick={() => setClickedEntryIndex(i)}
+                      className={`w-full flex ${
+                        isActive
+                          ? "h-auto flex-col border-y"
+                          : "h-14 items-center bg-input px-2"
+                      } py-4 cursor-pointer rounded-md transition-all duration-300`}
+                    >
+                      {!isActive ? (
+                        <p className='w-full overflow-hidden whitespace-nowrap text-ellipsis'>
+                          {entry.data}
+                        </p>
+                      ) : (
+                        <>
+                          <p className='text-sm font-medium'>Full Output</p>
+                          <div className='w-full max-h-60 bg-input break-words overflow-y-auto py-2 px-[2%] mb-3 rounded'>
+                            {entry.data}
+                          </div>
+
+                          <p className='text-sm font-medium'>Password</p>
+                          <p className='w-full min-h-12 bg-input break-words overflow-y-auto py-2 px-[2%] mb-2 rounded'>
+                            {entry.password}
+                          </p>
+
+                          <div className='w-full flex items-center gap-2'>
+                            <Button
+                              width='w-fit'
+                              className='py-[.2rem]'
+                              onClick={() => handleCopy(entry.data)}
+                            >
+                              {isCopied ? "Copied" : "Copy"}
+                            </Button>
+                            <Button
+                              className='border-red-400 py-[.2rem]'
+                              onClick={() => handleEntryDeletion(entry.id)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  );
+                })
+              )}
             </div>
 
-            <Button className='py-1'>Clear All</Button>
+            {entries.length > 0 && (
+              <Button
+                className='py-1'
+                onClick={async () => await deleteAllEntries()}
+              >
+                Clear All
+              </Button>
+            )}
           </div>
         </div>
       )}

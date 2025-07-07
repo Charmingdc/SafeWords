@@ -1,5 +1,5 @@
 type Props = {
-  width?: "w-full" | "w-1/2" | "w-40" | string;
+  width?: "w-full" | "w-1/2" | "w-fit" | string;
   className?: string;
   children: React.ReactNode;
   icon?: React.ReactNode;
@@ -14,9 +14,7 @@ const Button = ({
   onClick
 }: Props) => {
   return (
-    <button
-      onClick={onClick}
-      className={`uiverse-btn ${width}`}>
+    <button onClick={onClick} className={`uiverse-btn ${width}`}>
       <div
         className={`w-full flex items-center justify-center py-2 px-4 border-2 border-border ${className}`}
       >

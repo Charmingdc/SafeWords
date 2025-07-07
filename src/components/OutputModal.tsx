@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import Button from "@/components/ui/Button";
 import copyToClipboard from "@/utils/clipboard";
+import { useIndexedDB } from "@/hooks/useIndexDB";
 
 type Props = {
   operationType: "encryption" | "decryption";
@@ -10,7 +11,10 @@ type Props = {
 };
 
 const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
+  const { saveEntry } = useIndexedDB();
+
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [saving, setSaving] = useState<boolean>(false);
 
   const handleCopy = async (value: string) => {
     const res = await copyToClipboard(value);
@@ -21,6 +25,26 @@ const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
     toast.success(res.message);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
+  };
+
+  const saveData = async () => {
+    try {
+      setSaving(true);
+
+      const id = crypto.randomUUID();
+      const res = await saveEntry({
+        id,
+        data: operationResult.result,
+        password: operationResult.password
+      });
+
+      toast.success("Entry saved successfully");
+      
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -42,9 +66,11 @@ const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
           {operationResult.result}
         </div>
 
-        <p className='w-[90%] min-h-14 bg-input break-words overflow-y-auto py-2 px-[2%]'>
-          {operationResult.password}
-        </p>
+        {operationType === "encryption" && (
+          <p className='w-[90%] min-h-14 bg-input break-words overflow-y-auto py-2 px-[2%]'>
+            {operationResult.password}
+          </p>
+        )}
 
         <div className='w-[90%] flex items-center gap-4'>
           <Button
@@ -53,7 +79,11 @@ const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
           >
             {isCopied ? "Copied" : "Copy"}
           </Button>
-          <Button className='py-1'> Save </Button>
+          {operationType === "encryption" && (
+            <Button className='py-1' onClick={() => saveData()}>
+              {saving ? "Saving..." : "Save"}
+            </Button>
+          )}
         </div>
       </div>
     </div>
