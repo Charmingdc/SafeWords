@@ -35,7 +35,7 @@ const ViewSavedEncryptions = () => {
 
   const handleModalClosing = () => {
     setShowEntriesModal(false);
-    setClickedEntryIndex(null);
+    setClickedEntryId(null);
   };
 
   const handleEntryDeletion = async (id: string) => {

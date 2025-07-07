@@ -4,4 +4,4 @@ type Entry = {
   password: string;
 };
 
-export { Entry }
+export type { Entry }

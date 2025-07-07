@@ -1,8 +1,9 @@
+import type { Dispatch, SetStateAction } from "react";
 import Button from "@/components/ui/Button";
 
 type Props = {
-  operation: string;
-  setOperation: (operation: string) => void;
+  operation: "encryption" | "decryption";
+  setOperation: Dispatch<SetStateAction<"encryption" | "decryption">>;
 };
 
 const OperationTypeSelection = ({ operation, setOperation }: Props) => {

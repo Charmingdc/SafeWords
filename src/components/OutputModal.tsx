@@ -6,28 +6,33 @@ import useIndexedDB from "@/hooks/useIndexDB";
 
 type Props = {
   operationType: "encryption" | "decryption";
-  operationResult: { result: string; password: string };
+  operationResult: { result: string; password: string } | null;
   onClick: () => void;
 };
 
 const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
   const { saveEntry } = useIndexedDB();
 
-  const [isCopied, setIsCopied] = useState<boolean>(false);
-  const [saving, setSaving] = useState<boolean>(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  if (!operationResult) return null;
 
   const handleCopy = async (value: string) => {
     const res = await copyToClipboard(value);
+
     if (res.state === "error") {
       toast.error(res.message);
+    } else {
+      toast.success(res.message);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
     }
-
-    toast.success(res.message);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
   };
 
   const saveData = async () => {
+    if (!operationResult) return;
+
     try {
       setSaving(true);
 
@@ -43,7 +48,7 @@ const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
       if (err instanceof Error) {
         toast.error(err.message);
       } else {
-        toast.error("An unknown error occured");
+        toast.error("An unknown error occurred");
       }
     } finally {
       setSaving(false);
@@ -52,7 +57,7 @@ const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
 
   return (
     <div className='w-screen h-screen fixed top-0 bottom-0 bg-black/80 flex items-center justify-center backdrop-blur-sm overflow-hidden z-10'>
-      <div className='w-[90%] bg-card flex flex-col items-center gap-4 text-card-foreground py-4 px-[5% -mt-6'>
+      <div className='w-[90%] bg-card flex flex-col items-center gap-4 text-card-foreground py-4 px-[5%] -mt-6'>
         <div className='w-full flex items-center justify-between pb-2 px-[5%] border-b'>
           <h2 className='font-extrabold'>
             {operationType === "encryption"
@@ -82,8 +87,9 @@ const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
           >
             {isCopied ? "Copied" : "Copy"}
           </Button>
+
           {operationType === "encryption" && (
-            <Button className='py-1' onClick={() => saveData()}>
+            <Button className='py-1' onClick={saveData}>
               {saving ? "Saving..." : "Save"}
             </Button>
           )}
