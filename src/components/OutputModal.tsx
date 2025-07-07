@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import Button from "@/components/ui/Button";
 import copyToClipboard from "@/utils/clipboard";
-import { useIndexedDB } from "@/hooks/useIndexDB";
+import useIndexedDB from "@/hooks/useIndexDB";
 
 type Props = {
   operationType: "encryption" | "decryption";
@@ -32,7 +32,7 @@ const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
       setSaving(true);
 
       const id = crypto.randomUUID();
-      const res = await saveEntry({
+      await saveEntry({
         id,
         data: operationResult.result,
         password: operationResult.password

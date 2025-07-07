@@ -8,19 +8,19 @@ const copyToClipboard = async (value: string): Promise<ReturnType> => {
     if (!navigator?.clipboard) {
       return {
         state: "error",
-        message: "Clipboard API not supported",
+        message: "Clipboard API not supported"
       };
     }
 
     await navigator.clipboard.writeText(value);
     return {
       state: "success",
-      message: "Copied to clipboard",
+      message: "Copied to clipboard"
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return {
       state: "error",
-      message: error?.message || "Failed to copy",
+      message: error instanceof Error ? error.message : "Failed to copy"
     };
   }
 };

@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import copyToClipboard from "@/utils/clipboard";
-import { useIndexedDB, type Entry } from "@/hooks/useIndexDB";
+import useIndexedDB from "@/hooks/useIndexDB";
+import type { Entry } from "@/types/index";
 import Button from "@/components/ui/Button";
 
 const ViewSavedEncryptions = () => {
@@ -85,7 +86,7 @@ const ViewSavedEncryptions = () => {
 
                   return (
                     <div
-                      key={entry.id}
+                      key={`${entry.id}${i}`}
                       onClick={() => setClickedEntryId(entry.id)}
                       className={`w-full flex ${
                         isActive

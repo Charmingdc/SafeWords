@@ -1,26 +1,6 @@
 import { useCallback } from "react";
-
-type Entry = {
-  id: string;
-  data: string;
-  password: string;
-};
-
-const openDB = (): Promise<IDBDatabase> => {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open("MyDatabase", 1);
-
-    request.onupgradeneeded = event => {
-      const db = (event.target as IDBOpenDBRequest).result;
-      if (!db.objectStoreNames.contains("entries")) {
-        db.createObjectStore("entries", { keyPath: "id" });
-      }
-    };
-
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
-  });
-};
+import type { Entry } from "@/types/index";
+import { openDB } from "@/lib/indexedDB";
 
 const useIndexedDB = () => {
   const saveEntry = useCallback(async (entry: Entry): Promise<string> => {
@@ -102,4 +82,4 @@ const useIndexedDB = () => {
   };
 };
 
-export { Entry, useIndexedDB };
+export default useIndexedDB;
