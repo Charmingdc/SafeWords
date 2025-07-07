@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import createEncryptor from "@/utils/encryptor";
-import createDecryptor from "@/utils/decryptor";
+import encrypt from "@/utils/encryptor";
+import decrypt from "@/utils/decryptor";
 
 import { ShieldCheck, Key } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -34,8 +34,7 @@ const HomePage = () => {
     }
 
     try {
-      const encryptor = await createEncryptor();
-      const result = await encryptor(inputValue.trim(), password.trim());
+      const result = await encrypt(inputValue.trim(), password.trim());
 
       toast.success("Data encrypted successfully");
 
@@ -43,8 +42,12 @@ const HomePage = () => {
       setShowOutputModal(true);
       setInputValue("");
       setPassword("");
-    } catch (error) {
-      console.error(error.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An unknown error occured");
+      }
     }
   };
 
@@ -55,8 +58,7 @@ const HomePage = () => {
     }
 
     try {
-      const decryptor = await createDecryptor();
-      const result = await decryptor(inputValue.trim(), password.trim());
+      const result = await decrypt(inputValue.trim(), password.trim());
 
       toast.success("Data decrypted successfully");
 
@@ -64,8 +66,12 @@ const HomePage = () => {
       setShowOutputModal(true);
       setInputValue("");
       setPassword("");
-    } catch (error) {
-      console.error(error.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An unknown error occured");
+      }
     }
   };
 

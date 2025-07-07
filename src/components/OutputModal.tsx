@@ -39,9 +39,12 @@ const OutputModal = ({ operationType, operationResult, onClick }: Props) => {
       });
 
       toast.success("Entry saved successfully");
-      
-    } catch (err) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An unknown error occured");
+      }
     } finally {
       setSaving(false);
     }

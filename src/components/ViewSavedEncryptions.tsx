@@ -8,9 +8,7 @@ const ViewSavedEncryptions = () => {
   const { getAllEntries, deleteEntry, deleteAllEntries } = useIndexedDB();
 
   const [entries, setEntries] = useState<Entry[]>([]);
-  const [clickedEntryIndex, setClickedEntryIndex] = useState<number | null>(
-    null
-  );
+  const [clickedEntryId, setClickedEntryId] = useState<string | null>(null);
   const [showEntriesModal, setShowEntriesModal] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
@@ -44,8 +42,12 @@ const ViewSavedEncryptions = () => {
       await deleteEntry(id);
       toast.success("Entry deleted");
       fetchEntries();
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An unknown error occured");
+      }
     }
   };
 
@@ -79,12 +81,12 @@ const ViewSavedEncryptions = () => {
                 </p>
               ) : (
                 entries.map((entry, i) => {
-                  const isActive = clickedEntryIndex === i;
+                  const isActive = clickedEntryId === entry.id;
 
                   return (
                     <div
                       key={entry.id}
-                      onClick={() => setClickedEntryIndex(i)}
+                      onClick={() => setClickedEntryId(entry.id)}
                       className={`w-full flex ${
                         isActive
                           ? "h-auto flex-col border-y"
