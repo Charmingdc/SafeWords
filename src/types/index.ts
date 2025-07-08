@@ -4,4 +4,10 @@ type Entry = {
   password: string;
 };
 
-export type { Entry }
+type Feature = {
+  icon: string;
+  title: string;
+  content: string;
+};
+
+export type { Entry, Feature };

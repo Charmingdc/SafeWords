@@ -31,6 +31,9 @@ export default {
           foreground: "rgb(var(--input-foreground))"
         },
         border: "rgb(var(--border))"
+      },
+      backgroundImage: {
+        custom: "var(--bg-image)"
       }
     }
   },

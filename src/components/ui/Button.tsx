@@ -18,7 +18,7 @@ const Button = ({
       <div
         className={`w-full flex items-center justify-center py-2 px-4 border-2 border-border ${className}`}
       >
-        <span className='flex items-center justify-center gap-2 text-xl'>
+        <span className='flex items-center justify-center gap-2 text-md'>
           {icon && <span>{icon}</span>}
           {children}
         </span>
