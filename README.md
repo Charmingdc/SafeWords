@@ -1,164 +1,159 @@
-# **SafeWords: Secure Your Digital Messages**
+# **SafeWords: Your Private Text Encryption & Decryption Tool 🔒**
 
-SafeWords is a robust web application engineered with React and TypeScript, designed to give you complete control over the privacy of your sensitive text data. 🔐 It provides powerful client-side encryption and decryption capabilities using the browser's native Web Cryptography API, ensuring your information remains confidential. Additionally, it integrates IndexedDB for persistent local storage, allowing you to securely save and retrieve your encrypted entries directly in your browser.
+Protect your sensitive information with **SafeWords** – a robust, client-side encryption and decryption tool that ensures your data never leaves your browser. 🚀 Seamlessly encrypt any text with a strong password, generating a secure Base64-encoded string. Share it anywhere, knowing that only someone with the correct password can unlock its contents. Ideal for secure notes, confidential messages, or developer secrets. Your privacy, our priority! ✨
 
-## 🚀 Getting Started
+## 🚀 Installation
 
-To get SafeWords up and running on your local machine, follow these straightforward steps.
+Getting SafeWords up and running on your local machine is straightforward. Follow these steps to set up the development environment:
 
-### ✨ Prerequisites
+*   **1. Clone the Repository:**
+    Start by cloning the project to your local machine using Git:
 
-Before you begin, ensure you have the following installed:
+    ```bash
+    git clone git@github.com:Charmingdc/SafeWords
+    cd SafeWords
+    ```
 
-*   Node.js (LTS version recommended)
-*   npm or yarn
+*   **2. Install Dependencies:**
+    Navigate into the project directory and install all required dependencies using npm:
 
-### ⚙️ Installation Steps
+    ```bash
+    npm install
+    ```
 
-1.  **Clone the Repository**:
-Start by cloning the project to your local machine using Git:
+*   **3. Start the Development Server:**
+    Once dependencies are installed, you can launch the development server:
 
-```bash
-git clone git@github.com:Charmingdc/SafeWords
-```
+    ```bash
+    npm run dev
+    ```
+    This command will start the application, typically accessible at `http://localhost:5173/` in your web browser.
 
-2.  **Navigate to the Project Directory**:
-Change into the newly created project folder:
+*   **4. Build for Production (Optional):**
+    To create a production-ready build of the application, run:
 
-```bash
-cd SafeWords
-```
+    ```bash
+    npm run build
+    ```
+    This will generate optimized static assets in the `dist` directory.
 
-3.  **Install Dependencies**:
-Install all required project dependencies:
+## 📝 Usage
 
-```bash
-npm install
-# or yarn install
-```
+SafeWords is designed for intuitive and secure text handling. Here’s how you can use it to encrypt and decrypt your information:
 
-4.  **Start the Development Server**:
-Launch the application in development mode:
+1.  **Access the Application:**
+    After starting the development server, navigate to `http://localhost:5173/` (or the appropriate URL) in your web browser. You'll land on the introductory page. Click the "Get Started" button to proceed to the main encryption/decryption interface.
 
-```bash
-npm run dev
-# or yarn dev
-```
+2.  **Choose Your Operation:**
+    On the main page, you'll see two buttons: "Encryption" and "Decryption".
+    *   Select **Encryption** if you want to secure new text.
+    *   Select **Decryption** if you have an encrypted message you wish to reveal.
 
-The application should automatically open in your default browser, typically at `http://localhost:5173`.
+3.  **Input Your Data and Password:**
+    *   **Text Area:** Depending on your chosen operation, enter or paste the plain text you wish to encrypt, or the Base64-encoded encrypted string you want to decrypt.
+    *   **Password Field:** Input a strong, memorable password. This password is crucial for both encrypting and decrypting your data, so ensure it's kept private and secure. For decryption, you must use the exact password that was originally used for encryption.
 
-## 📖 Usage
+4.  **Perform the Operation:**
+    Once you've entered both your text/data and the password, click the prominent button at the bottom (which will display "SECURE" for encryption or "ACCESS" for decryption).
 
-SafeWords provides a highly intuitive interface for managing your encrypted and decrypted text.
+5.  **View and Manage Your Output:**
+    *   **Output Modal:** A modal will appear displaying your encrypted Base64 string (for encryption) or your decrypted plain text (for decryption).
+    *   **Copy to Clipboard:** Use the "Copy" button to quickly copy the output to your clipboard for sharing or further use.
+    *   **Save Encryptions (Encryption Only):** If you've encrypted text, you'll have an option to "Save" the encrypted output along with its password to your browser's local IndexedDB storage. This is stored entirely client-side, ensuring privacy.
+    *   **Close Modal:** Click "Close" to dismiss the output modal.
 
-🔑 **Encryption Process**:
-1.  On the home page, ensure "Encryption" is selected as the operation type.
-2.  Enter the text you wish to secure into the larger input area. This is where your confidential message goes.
-3.  In the second input field, set a strong, memorable password. This password is absolutely critical for future decryption, so keep it safe!
-4.  Click the "Secure" button to initiate the encryption process.
-5.  A modal will pop up displaying your newly encrypted text and the password used. You can easily copy this encrypted output to your clipboard for sharing or storage, or save it directly within the application for future access.
+6.  **View Saved Encryptions:**
+    On the main application page, you can click the "View Saved Encryptions" button. This will open a modal displaying all entries you've previously saved. You can then click on individual entries to view their full content and password, copy them, or delete them from your local storage.
 
-🔓 **Decryption Process**:
-1.  Switch the operation type to "Decryption".
-2.  Paste the encrypted data you received or previously saved into the main input field.
-3.  Enter the exact password that was used during the encryption of that data. Any mismatch will result in decryption failure.
-4.  Click the "Access" button to decrypt the data.
-5.  A modal will present the original, decrypted text.
+## ✨ Key Features
 
-💾 **Viewing Saved Encryptions**:
-*   Click the "View Saved Encryptions" button available on the home page.
-*   This will open a modal showcasing all the encrypted entries you've chosen to save locally.
-*   Clicking on an individual entry will expand it, revealing both the full encrypted data and its corresponding password. From here, you can conveniently copy either the data or delete the entry if it's no longer needed.
+SafeWords is built with a focus on security, usability, and privacy:
 
-💡 **Theme Toggling**:
-*   SafeWords supports both a clean light theme and a sleek dark theme.
-*   Simply click the sun or moon icon located in the top navigation bar to seamlessly switch between the two. Your selected theme preference will be automatically saved for your next visit.
+*   **End-to-End Privacy:** Your data is encrypted and decrypted entirely within your browser, ensuring no sensitive information ever touches a server.
+*   **Portable Output:** Encrypted messages are generated as compact, Base64-encoded strings, making them easy to share across any platform or medium.
+*   **Secure Note Sharing:** Ideal for confidentially transmitting sensitive details, such as API keys, login credentials, or private messages.
+*   **Platform Agnostic:** Encrypted messages can be sent via email, chat applications, social media, or even public posts, accessible only by those with the correct password.
+*   **Developer-Friendly:** A robust tool for developers needing to securely share configuration values, tokens, or environment variables without relying on complex external tools.
+*   **Minimal & Instant:** Enjoy a frictionless experience with no sign-ups, accounts, or tracking. Just paste, protect, and go.
+*   **Local Storage (IndexedDB):** Securely save your encrypted entries directly in your browser's IndexedDB, maintaining full control over your data.
+*   **Dark/Light Mode:** Toggle between light and dark themes for a comfortable viewing experience.
 
-## ✨ Features
+## 🛠️ Technologies Used
 
-Here's a snapshot of the core capabilities that make SafeWords a reliable choice for securing your data:
+SafeWords leverages a modern web development stack to deliver a secure and responsive user experience:
 
-*   🔒 **Client-Side Encryption & Decryption**: Leverages the powerful Web Cryptography API (AES-GCM with PBKDF2) for robust and secure text transformation directly in your browser.
-*   💾 **Local Persistent Storage**: Safely stores your encrypted entries and their respective passwords using IndexedDB, offering privacy and convenient offline access to your secrets.
-*   📋 **Instant Copy to Clipboard**: Quickly copy any encrypted or decrypted output to your clipboard with a single click, enhancing workflow efficiency.
-*   🎨 **Dynamic Theme Switching**: Provides a toggle between light and dark modes, with your preferred theme persistently saved across browsing sessions for a consistent user experience.
-*   🚀 **Intuitive User Interface**: Designed with a clean and user-friendly layout, built using modern React components and styled efficiently with Tailwind CSS.
-*   ⚡ **Real-time Notifications**: Integrates Sonner for stylish and informative toast notifications, providing immediate feedback on operations like copying, saving, and error handling.
-*   🛡️ **Input Validation**: Ensures that both the data and password fields are adequately populated before processing, guiding users towards successful operations and preventing common input errors.
-
-## 💻 Technologies Used
-
-SafeWords is built upon a contemporary and robust web development stack, leveraging powerful tools and libraries:
-
-| Technology           | Description                                                                                                    | Link                                                                      |
-| :------------------- | :------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------ |
-| **React 19**         | A declarative, efficient, and flexible JavaScript library for building dynamic user interfaces.                | [React](https://react.dev/)                                               |
-| **TypeScript**       | A strongly typed superset of JavaScript that compiles to plain JavaScript, enhancing code quality and maintainability. | [TypeScript](https://www.typescriptlang.org/)                             |
-| **Vite**             | A next-generation frontend tooling that provides a lightning-fast development experience with hot module replacement. | [Vite](https://vitejs.dev/)                                               |
-| **Tailwind CSS**     | A utility-first CSS framework for rapidly building custom designs directly in your HTML.                       | [Tailwind CSS](https://tailwindcss.com/)                                  |
-| **React Router DOM** | A collection of navigational components that enable declarative routing in your React applications.            | [React Router](https://reactrouter.com/)                                  |
-| **Web Cryptography API** | The browser-native API providing low-level cryptographic primitives for secure operations.                       | [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) |
-| **IndexedDB API**    | A low-level API for client-side storage of significant amounts of structured data, including files/blobs.        | [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) |
-| **Sonner**           | An elegant, accessible, and customizable toast component for React applications.                                | [Sonner](https://sonner.emilkowalski.pl/)                                 |
-| **Lucide React**     | A beautiful collection of customizable and tree-shakable open-source icons for React projects.                   | [Lucide React](https://lucide.dev/)                                       |
+| Technology         | Description                                                                                              | Link                                                              |
+| :----------------- | :------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------- |
+| **React (v19.1.0)** | A declarative, component-based JavaScript library for building user interfaces.                          | [React Official Site](https://react.dev/)                         |
+| **TypeScript (v5.x)** | A superset of JavaScript that adds static types, enhancing code quality and developer productivity.      | [TypeScript Official Site](https://www.typescriptlang.org/)       |
+| **Vite (v7.0.0)**   | A blazing-fast build tool and development server, offering a streamlined development workflow.           | [Vite Official Site](https://vitejs.dev/)                         |
+| **Tailwind CSS (v3.x)** | A utility-first CSS framework for rapidly building custom designs without leaving your HTML.             | [Tailwind CSS Official Site](https://tailwindcss.com/)            |
+| **Web Cryptography API** | Browser-native API used for robust client-side encryption and decryption.                             | [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) |
+| **IndexedDB**      | A low-level API for client-side storage of significant amounts of structured data, ensuring privacy.     | [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) |
+| **React Router DOM (v7.x)** | Declarative routing library for React applications.                                                      | [React Router](https://reactrouter.com/)                          |
+| **Lucide React**   | A collection of beautiful, community-maintained icons for React projects.                                | [Lucide Icons](https://lucide.dev/)                               |
+| **Sonner**         | An opinionated toast component for React, providing elegant and accessible notifications.                | [Sonner GitHub](https://sonner.emilkowalski.no/)                  |
 
 ## 🤝 Contributing
 
-I warmly welcome contributions to SafeWords! If you have ideas for new features, bug fixes, or general improvements, please consider contributing.
+We welcome contributions to SafeWords! Whether it's a bug report, a new feature, or an improvement to the documentation, your input is highly valued.
 
-🌟 **Fork the Repository**:
-Start by forking the repository to your own GitHub account.
+*   **1. Fork the Repository:**
+    Start by forking the SafeWords repository to your GitHub account.
 
-🚀 **Clone Your Fork**:
-```bash
-git clone https://github.com/YOUR_USERNAME/SafeWords.git
-```
+*   **2. Clone Your Fork:**
+    Clone your forked repository to your local machine:
 
-💡 **Create a New Branch**:
-Create a dedicated branch for your feature or fix:
+    ```bash
+    git clone https://github.com/YourUsername/SafeWords.git
+    ```
 
-```bash
-git checkout -b feature/your-awesome-feature
-# or bugfix/your-bug-fix
-```
+*   **3. Create a New Branch:**
+    Before making changes, create a new branch for your feature or bug fix:
 
-🛠️ **Make Your Changes**:
-Implement your improvements or fixes within this new branch.
+    ```bash
+    git checkout -b feature/your-feature-name
+    # or
+    git checkout -b bugfix/fix-description-error
+    ```
 
-✅ **Commit Your Changes**:
-Write clear, concise, and descriptive commit messages.
+*   **4. Make Your Changes:**
+    Implement your changes, ensuring your code adheres to the existing style and best practices. Write clear, concise commits.
 
-⬆️ **Push to Your Fork**:
-Push your changes to your forked repository:
+*   **5. Test Your Changes:**
+    Before submitting, thoroughly test your changes to ensure they work as expected and don't introduce new issues.
 
-```bash
-git push origin feature/your-awesome-feature
-```
+*   **6. Push Your Branch:**
+    Push your changes to your forked repository on GitHub:
 
-🤝 **Open a Pull Request**:
-Finally, open a pull request to the `main` branch of the original SafeWords repository, providing a detailed explanation of your changes.
+    ```bash
+    git push origin feature/your-feature-name
+    ```
 
-Your contributions are truly valued and help make SafeWords even better!
+*   **7. Open a Pull Request:**
+    Finally, open a pull request from your branch to the `main` branch of the original SafeWords repository. Provide a clear description of your changes and why they are necessary.
+
+Thank you for helping to improve SafeWords!
 
 ## 📜 License
 
-This project is open source and available under no specific license. Feel free to use and modify the code for your own purposes.
+No explicit license file has been provided with this project. Please refer to the repository owner for licensing details or consider it proprietary unless otherwise stated.
 
-## 🧑‍💻 Author
+## ✍️ Author
 
-Connect with the developer behind SafeWords:
+SafeWords was crafted with dedication by:
 
--   **GitHub**: [Charmingdc](https://github.com/Charmingdc)
--   **LinkedIn**: [Adebayo Muis](https://linkedin.com/in/your-profile)
--  **Twiter**: [@Charmingdc01](https://twitter.com/Charmingdc01)
--   **Portfolio**: [adebayomuis.vercel.app](https://adebayomuis.vercel.app)
-
----
-
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+**Charmingdc**
+*   **GitHub**: [@Charmingdc](https://github.com/Charmingdc)
+*   **Twitter**: [@Charmingdc01](https://twitter.com/Charmingdc01)
+*   **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/your-profile)
 
 ---
+
+[![Vercel Deployment Status](https://safewords.vercel.app/api/safewords-vercel-app)](https://safewords.vercel.app)
+[![React](https://img.shields.io/badge/React-19.1.0-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Vite](https://img.shields.io/badge/Vite-7.0.0-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+
 [![Readme was generated by Dokugen](https://img.shields.io/badge/Readme%20was%20generated%20by-Dokugen-brightgreen)](https://www.npmjs.com/package/dokugen)
