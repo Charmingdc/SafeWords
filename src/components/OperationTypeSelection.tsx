@@ -9,7 +9,7 @@ type Props = {
 const OperationTypeSelection = ({ operation, setOperation }: Props) => {
   return (
     <div className='w-full flex flex-col gap-3 mt-4'>
-      <p> Choose a operation to perform </p>
+      <p> Choose an operation to perform </p>
 
       <div className='w-full flex items-center justify-between'>
         <Button
